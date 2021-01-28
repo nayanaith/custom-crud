@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    #driver-class-name: org.mysql.jdbc.Driver
+    username: admin
+    password: springKore5
+    url: jdbc:mysql://database-1.cdimjrwcauao.us-east-1.rds.amazonaws.com:3306/sandBox
+    initialization-mode: always
+    continue-on-error: true
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: none
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+server:
+  port: 8090
