@@ -14,6 +14,6 @@ public class DomainMapper extends ConfigurableMapper {
         mapperFactory.classMap(Customer.class, CustomerDto.class)
                 .field("firstName", "firstName")
                 .field("lastName","lastName")
-                .field("email","emailAddress");
+                .field("email","emailAddress").byDefault().register();
     }
 }

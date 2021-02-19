@@ -2,6 +2,7 @@ package com.naya.customer_crud.service;
 
 import com.naya.customer_crud.dto.CustomerDto;
 import com.naya.customer_crud.entity.Customer;
+import com.naya.customer_crud.exceptions.CustomerNotFoundException;
 import com.naya.customer_crud.mapper.DomainMapper;
 import com.naya.customer_crud.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
@@ -44,8 +45,15 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Override
     public CustomerDto getCustomerById(Long id) {
-        Customer customer = customerRepository.findById(id).get();
-        return domainMapper.map(customerRepository.findById(id).get(),CustomerDto.class);
+        Customer customer = null;
+        try {
+            customer = customerRepository.findById(id).get();
+        }catch (Exception e){
+            if(customer == null){
+                throw new CustomerNotFoundException("No Customer was found with ID: "+id);
+            }
+        }
+        return domainMapper.map(customer,CustomerDto.class);
     }
 
     @Override

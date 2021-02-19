@@ -10,7 +10,7 @@ public class ThirdPartyWebServicesConfiguration {
 
     @Bean
     public WebClient weatheApiClient() throws Exception{
-        return null;
+        return WebClient.create("http://api.openweathermap.org/data/2.5/weather");
 
     }
 }

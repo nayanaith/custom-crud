@@ -1,13 +1,19 @@
 package com.naya.customer_crud.controller;
 
 import com.naya.customer_crud.dto.CustomerDto;
+import com.naya.customer_crud.exceptions.CustomerNotFoundException;
 import com.naya.customer_crud.exceptions.InvalidCustomerException;
 import com.naya.customer_crud.service.CustomerService;
+import io.swagger.annotations.Api;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
+//@Api(value="This is my Customer controller")
+@Api(tags="Customers", value = "This is my Customer controller")
 @RestController
 public class CustomerController {
 
@@ -19,7 +25,7 @@ public class CustomerController {
 
     @PostMapping(value = "/customers/new", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public CustomerDto createNewCustomer(@RequestBody CustomerDto customerDto) {
+    public CustomerDto createNewCustomer(@RequestBody @Validated CustomerDto customerDto) {
         CustomerDto createdCustomer = customerService.createNewCustomer(customerDto);
         return createdCustomer;
     }
@@ -41,16 +47,17 @@ public class CustomerController {
     }
 
     @GetMapping(value = "/customers/{id}")
-    public CustomerDto getCustomerByI(@PathVariable Long id) {
+    public CustomerDto getCustomerById(@PathVariable Long id) {
         if (id < 0) {
             throw new InvalidCustomerException("Customer id " + id + " is invalid");
         }
+        CustomerDto customerDto = customerService.getCustomerById(id);
         return customerService.getCustomerById(id);
     }
 
-    @PutMapping(value="/customers", consumes = MediaType.APPLICATION_JSON_VALUE,
-    produces = MediaType.APPLICATION_JSON_VALUE)
-    public CustomerDto updateCustomer(CustomerDto customerDto){
+    @PutMapping(value = "/customers", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public CustomerDto updateCustomer(CustomerDto customerDto) {
         return customerService.updateCustomer(customerDto);
     }
 }
